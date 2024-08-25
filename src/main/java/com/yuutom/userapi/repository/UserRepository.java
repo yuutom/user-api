@@ -4,7 +4,6 @@ import com.yuutom.userapi.entity.User;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -29,22 +28,6 @@ public class UserRepository {
     public void delete(User user) {
         getMapper().delete(user);
     }
-
-//    public List<Topic> findByTopicName(String topicName) {
-//        return getMapper().findByTopicName(topicName);
-//    }
-//
-//    public boolean existsTopicSubscription(long topicId, long ownerPublisherId, long subscriberId){
-//        return getMapper().existsByTopicIdAndSubscriberId(topicId, ownerPublisherId, subscriberId);
-//    }
-//
-//    public void insertSubscription(long topicId, long ownerPublisherId, long subscriberId){
-//        getMapper().insertSubscription(topicId, ownerPublisherId, subscriberId);
-//    }
-//
-//    public boolean isExistTopicSubscription(String topicName, long ownerPublisherId, long subscriberId) {
-//        return getMapper().isExistTopicSubscription(topicName, ownerPublisherId, subscriberId);
-//    }
 
     private UserMapper getMapper() {
         return this.sqlSessionTemplate.getMapper(UserMapper.class);

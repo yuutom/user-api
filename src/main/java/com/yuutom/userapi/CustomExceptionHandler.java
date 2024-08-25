@@ -56,16 +56,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             }});
     }
 
-    @ExceptionHandler(UserService.DuplicateSubscriptionException.class)
-    public ResponseEntity<ErrorResponse> handleDuplicateSubscriptionException(UserService.DuplicateSubscriptionException ex) {
-        return ResponseEntity
-            .status(HttpStatus.CONFLICT)
-            .body(new ErrorResponse(){{
-                setMessage("Account creation failed");
-                setCause("already same user_id is used");
-            }});
-    }
-
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return ResponseEntity
@@ -82,26 +72,6 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             .status(HttpStatus.UNAUTHORIZED)
             .body(new ErrorResponse(){{
                 setMessage("Authentication Failed");
-            }});
-    }
-
-    @ExceptionHandler(UserService.UnauthorizedTopicException.class)
-    public ResponseEntity<ErrorResponse> handleUnauthorizedTopicException(UserService.UnauthorizedTopicException ex) {
-        return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .body(new ErrorResponse(){{
-                setMessage("Account creation failed");
-                setCause("already same user_id is used");
-            }});
-    }
-
-    @ExceptionHandler(UserService.NotSubscribeTopicException.class)
-    public ResponseEntity<ErrorResponse> handleNotSubscribeTopicException(UserService.NotSubscribeTopicException ex) {
-        return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
-            .body(new ErrorResponse(){{
-                setMessage("Account creation failed");
-                setCause("already same user_id is used");
             }});
     }
 }

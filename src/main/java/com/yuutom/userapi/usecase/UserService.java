@@ -79,22 +79,4 @@ public class UserService {
             super(message);
         }
     }
-
-    public static class DuplicateSubscriptionException extends RuntimeException {
-        public DuplicateSubscriptionException(String message) {
-            super(message);
-        }
-    }
-
-    public static class UnauthorizedTopicException extends RuntimeException {
-        public UnauthorizedTopicException(String message) {
-            super(message);
-        }
-    }
-
-    public static class NotSubscribeTopicException extends RuntimeException {
-        public NotSubscribeTopicException(String message) {
-            super(message);
-        }
-    }
 }

@@ -39,10 +39,6 @@
         WHERE user_id = #{userId} AND password = #{password}
     </update>
 
-    <insert id="insertSubscription">
-        INSERT INTO subscription (TOPIC_ID, OWNER_PUBLISHER_ID, SUBSCRIBER_ID) VALUES (#{topicId}, #{ownerPublisherId}, #{subscriberId})
-    </insert>
-
     <select id="findById" resultType="com.yuutom.userapi.entity.User">
         SELECT
             USER_ID,
@@ -54,30 +50,4 @@
         WHERE
             USER_ID = #{userId}
     </select>
-
-    <select id="findByTopicName" resultType="com.yuutom.userapi.entity.User">
-        SELECT
-            TOPIC_ID,
-            TOPIC_NAME,
-            OWNER_PUBLISHER_ID,
-            REGISTER_DATE
-        FROM
-            topic
-        WHERE
-            TOPIC_NAME = #{topicName}
-    </select>
-
-    <select id="existsByTopicIdAndSubscriberId">
-    SELECT EXISTS(
-        SELECT
-            1
-        FROM
-            subscription
-        WHERE
-            TOPIC_ID = #{topicId}
-            AND OWNER_PUBLISHER_ID = #{ownerPublisherId}
-            AND SUBSCRIBER_ID = #{subscriberId}
-    )
-    </select>
-
 </mapper>
