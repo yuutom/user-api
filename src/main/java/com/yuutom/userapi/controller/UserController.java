@@ -60,7 +60,7 @@ public class UserController implements SignupApi, UsersApi, CloseApi{
     }
 
     @Override
-    public ResponseEntity<UpdateUser200Response> updateUser(String userIdParam, UpdateUserRequest request, @RequestHeader("Authorization") String authorizationHeader) {
+    public ResponseEntity<UpdateUser200Response> updateUser(String userIdPathParam, UpdateUserRequest request, @RequestHeader("Authorization") String authorizationHeader) {
         if (authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
             // Basic 認証ヘッダーから認証情報を抽出
             String base64Credentials = authorizationHeader.substring("Basic ".length());
@@ -71,7 +71,7 @@ public class UserController implements SignupApi, UsersApi, CloseApi{
             String password = values[1];
             var response = new UpdateUser200Response();
             response.setMessage("User successfully updated");
-            User user = userService.updateUser(userId, password, request.getNickname(), request.getComment());
+            User user = userService.updateUser(userId, password, request.getNickname(), request.getComment(), userIdPathParam);
             response.setRecipe(new ArrayList<>(){{
                 add(new com.yuutom.userapi.model.User(){{
                     setNickname(user.getNickname());

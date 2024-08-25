@@ -37,7 +37,10 @@ public class UserService {
         return existingUser.get();
     }
 
-    public User updateUser(String userId, String password, String nickname, String comment) {
+    public User updateUser(String userId, String password, String nickname, String comment, String userIdPathParam) {
+        if (!userId.equals(userIdPathParam)) {
+            throw new NoPermissionException("no permission update");
+        }
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isEmpty()) {
             throw new UserNotExistException("not exist user");
