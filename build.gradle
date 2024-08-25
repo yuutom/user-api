@@ -67,23 +67,23 @@ test {
     useJUnitPlatform()
 }
 
-//task buildApiDoc(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-//    generatorName.set("html2")
-//    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
-//    outputDir.set("$buildDir/apidoc")
-//}
-//
-//task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
-//    generatorName.set("spring")
-//    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
-//    outputDir.set("$buildDir/spring")
-//    apiPackage.set("com.yuutom.userapi.controller")
-//    modelPackage.set("com.yuutom.userapi.model")
-//    configOptions.set([
-//            interfaceOnly: "true",
-//            useSpringBoot3: "true"
-//    ])
-//}
-//
-//compileJava.dependsOn(tasks.buildSpringServer)
-//sourceSets.main.java.srcDir("$buildDir/spring/src/main/java")
+task buildApiDoc(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("html2")
+    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
+    outputDir.set("$buildDir/apidoc")
+}
+
+task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
+    outputDir.set("$buildDir/spring")
+    apiPackage.set("com.yuutom.userapi.controller")
+    modelPackage.set("com.yuutom.userapi.model")
+    configOptions.set([
+            interfaceOnly: "true",
+            useSpringBoot3: "true"
+    ])
+}
+
+compileJava.dependsOn(tasks.buildSpringServer)
+sourceSets.main.java.srcDir("$buildDir/spring/src/main/java")
