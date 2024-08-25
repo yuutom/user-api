@@ -53,6 +53,15 @@ public class UserService {
         return user;
     }
 
+    public void deleteUser(String userId, String password) {
+        User user = new User(){{
+            setUserId(userId);
+            setPassword(password);
+            setNickname(userId);
+        }};
+        userRepository.delete(user);
+    }
+
     public static class DuplicateUserException extends RuntimeException {
         public DuplicateUserException(String message) {
             super(message);

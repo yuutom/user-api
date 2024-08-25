@@ -12,6 +12,8 @@ public interface UserMapper {
     Optional<User> findById(String userId);
 
     int update(User user);
+
+    void delete(User user);
 //    List<Topic> findByTopicName(String topicName);
 //    boolean existsByTopicIdAndSubscriberId(long topicId, long ownerPublisherId, long subscriberId);
 //    boolean isExistTopicSubscription(String topicName, long ownerPublisherId, long subscriberId);

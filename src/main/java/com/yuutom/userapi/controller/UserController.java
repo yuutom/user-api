@@ -14,7 +14,7 @@ import java.util.Base64;
 import java.util.Optional;
 
 @RestController
-public class UserController implements SignupApi, UsersApi{
+public class UserController implements SignupApi, UsersApi, CloseApi{
     private final UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
@@ -78,6 +78,24 @@ public class UserController implements SignupApi, UsersApi{
                     setComment(user.getComment());
                 }});
             }});
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        throw new UnAuthorizationHeaderException("unauthorized header");
+    }
+
+    @Override
+    public ResponseEntity<DeleteUserResponse> deleteUser(@RequestHeader("Authorization") String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
+            // Basic 認証ヘッダーから認証情報を抽出
+            String base64Credentials = authorizationHeader.substring("Basic ".length());
+            String credentials = new String(Base64.getDecoder().decode(base64Credentials));
+            // 認証情報は "username:password" の形式
+            String[] values = credentials.split(":", 2);
+            String userId = values[0];
+            String password = values[1];
+            var response = new DeleteUserResponse();
+            response.setMessage("Account and user successfully removed");
+            userService.deleteUser(userId, password);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         }
         throw new UnAuthorizationHeaderException("unauthorized header");

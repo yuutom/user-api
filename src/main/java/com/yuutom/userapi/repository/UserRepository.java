@@ -26,6 +26,10 @@ public class UserRepository {
         return getMapper().update(user);
     }
 
+    public void delete(User user) {
+        getMapper().delete(user);
+    }
+
 //    public List<Topic> findByTopicName(String topicName) {
 //        return getMapper().findByTopicName(topicName);
 //    }

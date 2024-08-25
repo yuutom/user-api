@@ -159,6 +159,11 @@ paths:
         - user
       summary: ユーザ情報を削除する
       operationId: deleteUser
+      parameters:
+        - in: header
+          name: Authorization
+          schema:
+            type: string
       responses:
         200:
           description: OK

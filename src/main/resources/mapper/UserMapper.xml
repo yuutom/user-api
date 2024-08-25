@@ -6,6 +6,12 @@
         INSERT INTO "user" (USER_ID, PASSWORD, NICKNAME) VALUES (#{userId}, #{password}, #{nickname})
     </insert>
 
+    <delete id="delete">
+        DELETE FROM "user"
+        WHERE user_id = #{userId}
+        AND password = #{password}
+    </delete>
+
     <update id="update">
         UPDATE "user"
         SET
