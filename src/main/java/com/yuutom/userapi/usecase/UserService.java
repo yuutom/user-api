@@ -48,7 +48,8 @@ public class UserService {
             setNickname(nickname);
             setComment(comment);
         }};
-        userRepository.update(user);
+        int count = userRepository.update(user);
+        if (count == 0) throw new NoPermissionException("no permission update");
         return user;
     }
 
@@ -60,6 +61,12 @@ public class UserService {
 
     public static class UserNotExistException extends RuntimeException {
         public UserNotExistException(String message) {
+            super(message);
+        }
+    }
+
+    public static class NoPermissionException extends RuntimeException {
+        public NoPermissionException(String message) {
             super(message);
         }
     }

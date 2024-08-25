@@ -47,6 +47,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             }});
     }
 
+    @ExceptionHandler(UserService.NoPermissionException.class)
+    public ResponseEntity<ErrorResponse> handleNoPermissionException(UserService.NoPermissionException ex) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorResponse(){{
+                setMessage("No Permission for Update");
+            }});
+    }
+
     @ExceptionHandler(UserService.DuplicateSubscriptionException.class)
     public ResponseEntity<ErrorResponse> handleDuplicateSubscriptionException(UserService.DuplicateSubscriptionException ex) {
         return ResponseEntity

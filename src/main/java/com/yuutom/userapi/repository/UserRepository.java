@@ -22,8 +22,8 @@ public class UserRepository {
         return getMapper().findById(userId);
     }
 
-    public void update(User user) {
-        getMapper().update(user);
+    public int update(User user) {
+        return getMapper().update(user);
     }
 
 //    public List<Topic> findByTopicName(String topicName) {
