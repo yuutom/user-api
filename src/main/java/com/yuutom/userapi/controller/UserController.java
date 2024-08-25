@@ -1,18 +1,27 @@
 package com.yuutom.userapi.controller;
 
 import com.yuutom.userapi.entity.User;
-import com.yuutom.userapi.model.CreateUserRequest;
-import com.yuutom.userapi.model.SignupResponse;
+import com.yuutom.userapi.model.*;
 import com.yuutom.userapi.usecase.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.NativeWebRequest;
+
+import java.util.Base64;
+import java.util.Optional;
 
 @RestController
-public class UserController implements SignupApi{
+public class UserController implements SignupApi, UsersApi{
     private final UserService userService;
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @Override
+    public Optional<NativeWebRequest> getRequest() {
+        return SignupApi.super.getRequest();
     }
 
     @Override
@@ -25,6 +34,39 @@ public class UserController implements SignupApi{
             setNickname(user.getNickname());
         }});
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @Override
+    public ResponseEntity<GetUserResponse> getUser(@RequestHeader("Authorization") String authorizationHeader){
+        if (authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
+            // Basic 認証ヘッダーから認証情報を抽出
+            String base64Credentials = authorizationHeader.substring("Basic ".length());
+            String credentials = new String(Base64.getDecoder().decode(base64Credentials));
+            // 認証情報は "username:password" の形式
+            String[] values = credentials.split(":", 2);
+            String userId = values[0];
+            String password = values[1];
+            var response = new GetUserResponse();
+            response.setMessage("User details by user_id");
+            User user = userService.getUser(userId, password);
+            response.setUser(new com.yuutom.userapi.model.User(){{
+                setUserId(user.getUserId());
+                setNickname(user.getNickname());
+            }});
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        throw new UnAuthorizationHeaderException("unauthorized header");
+    }
+
+    @Override
+    public ResponseEntity<UpdateUser200Response> updateUser(String userId, UpdateUserRequest updateUserRequest) {
+        return UsersApi.super.updateUser(userId, updateUserRequest);
+    }
+
+    public static class UnAuthorizationHeaderException extends RuntimeException {
+        public UnAuthorizationHeaderException(String message) {
+            super(message);
+        }
     }
 
 }

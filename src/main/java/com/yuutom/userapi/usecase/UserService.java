@@ -29,6 +29,14 @@ public class UserService {
         return user;
     }
 
+    public User getUser(String userId, String password) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        if (existingUser.isEmpty()) {
+            throw new UserNotExistException("not exist user");
+        }
+        return existingUser.get();
+    }
+
 //    public Topic subscribe(long ownerPublisherId, String topicName, long subscriberId) {
 //        Topic targetTopic = topicRepository.findByPublisherIdAndTopicName(ownerPublisherId, topicName)
 //            .orElseThrow(() -> new TopicNotExistException("The target topic does not exist."));
@@ -48,8 +56,8 @@ public class UserService {
         }
     }
 
-    public static class TopicNotExistException extends RuntimeException {
-        public TopicNotExistException(String message) {
+    public static class UserNotExistException extends RuntimeException {
+        public UserNotExistException(String message) {
             super(message);
         }
     }

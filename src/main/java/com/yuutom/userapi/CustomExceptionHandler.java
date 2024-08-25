@@ -1,5 +1,6 @@
 package com.yuutom.userapi;
 
+import com.yuutom.userapi.controller.UserController;
 import com.yuutom.userapi.model.ErrorResponse;
 import com.yuutom.userapi.usecase.UserService;
 import org.springframework.http.HttpHeaders;
@@ -27,13 +28,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             }});
     }
 
-    @ExceptionHandler(UserService.TopicNotExistException.class)
-    public ResponseEntity<ErrorResponse> handleTopicNotExistException(UserService.TopicNotExistException ex) {
+    @ExceptionHandler(UserController.UnAuthorizationHeaderException.class)
+    public ResponseEntity<ErrorResponse> handleUnAuthorizationHeaderException(UserController.UnAuthorizationHeaderException ex) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorResponse(){{
+                setMessage("Authentication Failed");
+            }});
+    }
+
+    @ExceptionHandler(UserService.UserNotExistException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotExistException(UserService.UserNotExistException ex) {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(new ErrorResponse(){{
-                setMessage("Account creation failed");
-                setCause("already same user_id is used");
+                setMessage("No User found");
             }});
     }
 

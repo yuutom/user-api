@@ -60,6 +60,8 @@ paths:
           required: true
           schema:
             type: string
+      security:
+        - basicAuth: []
       responses:
         200:
           description: OK
@@ -157,10 +159,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
+                $ref: "#/components/schemas/DeleteUserResponse"
         401:
           description: UNAUTHORIZED
           content:
@@ -169,6 +168,10 @@ paths:
                 $ref: "#/components/schemas/ErrorResponse"
 
 components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
   schemas:
     SignupResponse:
       type: object
@@ -186,6 +189,12 @@ components:
           example: Account successfully created
         user:
           $ref: "#/components/schemas/User"
+    DeleteUserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Account and user successfully removed
     ErrorResponse:
       description: Error Response
       type: object
