@@ -37,18 +37,20 @@ public class UserService {
         return existingUser.get();
     }
 
-//    public Topic subscribe(long ownerPublisherId, String topicName, long subscriberId) {
-//        Topic targetTopic = topicRepository.findByPublisherIdAndTopicName(ownerPublisherId, topicName)
-//            .orElseThrow(() -> new TopicNotExistException("The target topic does not exist."));
-//
-//        boolean hasAlreadyExists = topicRepository.existsTopicSubscription(targetTopic.getTopicId(), targetTopic.getOwnerPublisherId(), subscriberId);
-//        if (hasAlreadyExists) {
-//            throw new DuplicateSubscriptionException("Subscription already exists");
-//        }
-//
-//        topicRepository.insertSubscription(targetTopic.getTopicId(), targetTopic.getOwnerPublisherId(), subscriberId);
-//        return targetTopic;
-//    }
+    public User updateUser(String userId, String password, String nickname, String comment) {
+        Optional<User> existingUser = userRepository.findById(userId);
+        if (existingUser.isEmpty()) {
+            throw new UserNotExistException("not exist user");
+        }
+        User user = new User(){{
+            setUserId(userId);
+            setPassword(password);
+            setNickname(nickname);
+            setComment(comment);
+        }};
+        userRepository.update(user);
+        return user;
+    }
 
     public static class DuplicateUserException extends RuntimeException {
         public DuplicateUserException(String message) {

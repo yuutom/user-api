@@ -9,8 +9,9 @@ import java.util.Optional;
 @Mapper
 public interface UserMapper {
     void insert(User user);
-//    void insertSubscription(long topicId, long ownerPublisherId, long subscriberId);
     Optional<User> findById(String userId);
+
+    void update(User user);
 //    List<Topic> findByTopicName(String topicName);
 //    boolean existsByTopicIdAndSubscriberId(long topicId, long ownerPublisherId, long subscriberId);
 //    boolean isExistTopicSubscription(String topicName, long ownerPublisherId, long subscriberId);

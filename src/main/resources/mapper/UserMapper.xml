@@ -6,6 +6,33 @@
         INSERT INTO "user" (USER_ID, PASSWORD, NICKNAME) VALUES (#{userId}, #{password}, #{nickname})
     </insert>
 
+    <update id="update">
+        UPDATE "user"
+        SET
+        nickname =
+        <choose>
+            <when test="nickname != null and nickname != ''">
+                #{nickname}
+            </when>
+            <when test="nickname == ''">
+                #{userId}
+            </when>
+            <otherwise>
+                nickname
+            </otherwise>
+        </choose>,
+        comment =
+        <choose>
+            <when test="comment != null">
+                #{comment}
+            </when>
+            <otherwise>
+                comment
+            </otherwise>
+        </choose>
+        WHERE user_id = #{userId} AND password = #{password}
+    </update>
+
     <insert id="insertSubscription">
         INSERT INTO subscription (TOPIC_ID, OWNER_PUBLISHER_ID, SUBSCRIBER_ID) VALUES (#{topicId}, #{ownerPublisherId}, #{subscriberId})
     </insert>
