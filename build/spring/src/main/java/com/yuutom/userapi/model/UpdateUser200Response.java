@@ -24,7 +24,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("updateUser_200_response")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-25T13:59:23.896535+09:00[Asia/Tokyo]", comments = "Generator version: 7.7.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-08-25T15:51:00.332554+09:00[Asia/Tokyo]", comments = "Generator version: 7.7.0")
 public class UpdateUser200Response {
 
   private String message;
