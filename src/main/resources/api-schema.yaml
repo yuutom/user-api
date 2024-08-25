@@ -60,8 +60,11 @@ paths:
           required: true
           schema:
             type: string
-      security:
-        - basicAuth: []
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: OK

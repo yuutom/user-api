@@ -6,6 +6,7 @@ import com.yuutom.userapi.usecase.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.NativeWebRequest;
 
@@ -37,7 +38,7 @@ public class UserController implements SignupApi, UsersApi{
     }
 
     @Override
-    public ResponseEntity<GetUserResponse> getUser(@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity<GetUserResponse> getUser(String userIdParam, @RequestHeader("Authorization") String authorizationHeader){
         if (authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
             // Basic 認証ヘッダーから認証情報を抽出
             String base64Credentials = authorizationHeader.substring("Basic ".length());
