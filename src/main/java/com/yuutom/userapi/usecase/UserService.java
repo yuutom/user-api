@@ -51,8 +51,7 @@ public class UserService {
             setNickname(nickname);
             setComment(comment);
         }};
-        int count = userRepository.update(user);
-        if (count == 0) throw new NoPermissionException("no permission update");
+        userRepository.update(user);
         return user;
     }
 

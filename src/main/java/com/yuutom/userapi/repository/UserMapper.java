@@ -10,7 +10,7 @@ public interface UserMapper {
     void insert(User user);
     Optional<User> findById(String userId);
 
-    int update(User user);
+    void update(User user);
 
     void delete(User user);
 }

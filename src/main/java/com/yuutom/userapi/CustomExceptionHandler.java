@@ -50,7 +50,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserService.NoPermissionException.class)
     public ResponseEntity<ErrorResponse> handleNoPermissionException(UserService.NoPermissionException ex) {
         return ResponseEntity
-            .status(HttpStatus.UNAUTHORIZED)
+            .status(HttpStatus.FORBIDDEN)
             .body(new ErrorResponse(){{
                 setMessage("No Permission for Update");
             }});

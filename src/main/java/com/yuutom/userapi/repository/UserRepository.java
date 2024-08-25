@@ -21,8 +21,8 @@ public class UserRepository {
         return getMapper().findById(userId);
     }
 
-    public int update(User user) {
-        return getMapper().update(user);
+    public void update(User user) {
+        getMapper().update(user);
     }
 
     public void delete(User user) {
