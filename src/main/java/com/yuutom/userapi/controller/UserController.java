@@ -19,7 +19,7 @@ public class UserController implements SignupApi{
     public ResponseEntity<SignupResponse> createUser(CreateUserRequest request) {
         User user = userService.create(request.getUserId(), request.getPassword());
         var response = new SignupResponse();
-        response.setMessage("Account Successfully created");
+        response.setMessage("Account successfully created");
         response.setUser(new com.yuutom.userapi.model.User(){{
             setUserId(user.getUserId());
             setNickname(user.getNickname());
