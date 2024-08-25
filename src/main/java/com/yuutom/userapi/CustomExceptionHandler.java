@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -63,6 +64,15 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
             .body(new ErrorResponse(){{
                 setMessage("Account creation failed");
                 setCause("required user_id and password");
+            }});
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    protected ResponseEntity<Object> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(new ErrorResponse(){{
+                setMessage("Authentication Failed");
             }});
     }
 
