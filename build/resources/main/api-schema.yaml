@@ -1,0 +1,213 @@
+openapi: "3.0.0"
+info:
+  title: user api
+  version: "0.0.1"
+  description: API document
+tags:
+  - name: user
+    description: ユーザに関連するリソース
+paths:
+  /signup:
+    post:
+      tags:
+        - user
+      description: ユーザを作成する
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  minLength: 6
+                  maxLength: 20
+#                  pattern: "^[a-zA-Z0-9]+$"
+                  description: 6文字以上20文字以内の半角英数字
+                password:
+                  type: string
+                  minLength: 8
+                  maxLength: 20
+#                  pattern: "^[\\w\\d\\S]{8,20}$"
+                  description: 8文字以上20文字以内の半角英数字記号（空白と制御コードを除く）
+              required:
+                - user_id
+                - password
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignupResponse"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /users/{user_id}:
+    get:
+      tags:
+        - user
+      summary: ユーザ情報を取得する
+      operationId: getUser
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetUserResponse"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    patch:
+      tags:
+        - user
+      summary: ユーザ情報を更新する
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                  maxLength: 30
+#                  pattern: "^[^\p{C}]*$"
+                  description: 30文字以内の制御文字以外
+                comment:
+                  type: string
+                  maxLength: 100
+#                  pattern: "^[^\p{C}]*$"
+                  description: 100文字以内の制御文字以外
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  recipe:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/User"
+        400:
+          description: BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        403:
+          description: FORBIDDEN
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: NOT FOUND
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /close:
+    post:
+      tags:
+        - user
+      summary: ユーザ情報を削除する
+      operationId: deleteUser
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        401:
+          description: UNAUTHORIZED
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    SignupResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Account successfully created
+        user:
+          $ref: "#/components/schemas/User"
+    GetUserResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Account successfully created
+        user:
+          $ref: "#/components/schemas/User"
+    ErrorResponse:
+      description: Error Response
+      type: object
+      properties:
+        message:
+          type: string
+          description: error title
+        cause:
+          type: string
+          description: error detail
+      required:
+        - message
+        - cause
+    User:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: "TaroYamada"
+        nickname:
+          type: string
+          example: "たろー"
+        comment:
+          type: string
+          example: "僕は元気です"
